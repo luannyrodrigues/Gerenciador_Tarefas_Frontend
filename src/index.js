@@ -10,14 +10,16 @@ root.render(
   </React.StrictMode>
 );
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(registration => {
-        console.log('Service Worker registrado com sucesso:', registration);
+// ✅ Registro manual do service worker
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/service-worker.js") 
+      .then((registration) => {
+        console.log("Service Worker registrado:", registration);
       })
-      .catch(error => {
-        console.error('Erro ao registrar o Service Worker:', error);
+      .catch((error) => {
+        console.error("Erro ao registrar Service Worker:", error);
       });
   });
 }
