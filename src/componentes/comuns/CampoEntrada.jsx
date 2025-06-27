@@ -1,4 +1,3 @@
-// src/componentes/comuns/CampoEntrada.jsx
 import { InputText } from "primereact/inputtext";
 
 const CampoEntrada = ({

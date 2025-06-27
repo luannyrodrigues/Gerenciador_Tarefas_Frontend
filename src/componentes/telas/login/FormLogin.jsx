@@ -1,18 +1,27 @@
-// src/pages/Login/FormLogin.jsx
 import { useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { useNavigate } from "react-router-dom";
-import { getUsuariosAPI } from "../../../servicos/UsuarioServico";
+import { autenticaAPI, getStorage } from "../../../servicos/AuthServico";
 
 const FormLogin = () => {
     const styles = {
+        box: {
+            display: "flex",
+            width: '100%',
+            minHeight: '100vh',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
         container: {
             display: "flex",
             flexDirection: "column",
             width: 'fit-content',
-            gap: '2vh'
+            gap: '2vh',
+            flexWrap: 'wrap',
+            marginBottom: '10vw',
+            alignItems: 'center'
         }
     }
 
@@ -23,31 +32,20 @@ const FormLogin = () => {
 
     const handleLogin = async () => {
         try {
-            const usuarios = await getUsuariosAPI(); 
-
-            const usuario = usuarios.find((usuario) => usuario.email === email);
-
-            if (!usuario) {
-                setError("Usuário não encontrado");
-                return;
+            await autenticaAPI({email, senha}, 'post');
+            if (getStorage('auth')) {
+                navigate('/home');
             }
-
-            if (usuario.senha !== senha) { 
-                setError("Senha incorreta");
-                return;
-            }
-
-            localStorage.setItem("usuario", JSON.stringify(usuario));
-            navigate('/home'); 
-
-        } catch (err) {
-            setError("Erro ao conectar com o servidor.");
+        } catch (error) {   
+            setError(error);
         }
     };
 
     return (
-        <div style={{'display': 'flex'}}>
+        <div style={styles.box}>
             <div style={styles.container}>
+                <h1>GoJira</h1>
+                <h2>Gerenciador de Tarefas</h2>
                 <InputText 
                     placeholder="E-mail" 
                     value={email} 

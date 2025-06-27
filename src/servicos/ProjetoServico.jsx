@@ -1,8 +1,9 @@
+import { getToken } from "./AuthServico";
 
 export const getProjetoPorIdAPI = async id => {
     const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/projeto/${id}`, {
         method: "GET",
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json", "Authorization": getToken() }
     });
     const data = await response.json();
     return data;
@@ -11,7 +12,7 @@ export const getProjetoPorIdAPI = async id => {
 export const deleteProjetoPorIdAPI = async id => {
     const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/projeto/${id}`, {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json", "Authorization": getToken() }
     });
     const data = await response.json();
     return data;
@@ -20,7 +21,7 @@ export const deleteProjetoPorIdAPI = async id => {
 export const cadastraProjetoAPI = async (idUsuario, objeto, metodo) => {
     const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/projeto/${idUsuario}`, {
         method: metodo,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": getToken() },
         body: JSON.stringify(objeto)
     });
     const data = await response.json();
@@ -30,7 +31,7 @@ export const cadastraProjetoAPI = async (idUsuario, objeto, metodo) => {
 export const getProjetoDoUsuarioAPI = async (id) => {
     const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/projetoUsuario/${id}`, {
         method: "GET",
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json", "Authorization": getToken() }
     });
     const data = await response.json();
     return data;
@@ -39,7 +40,7 @@ export const getProjetoDoUsuarioAPI = async (id) => {
 export const getUsuarioPorEmailAPI = async (objeto, metodo) => {
     const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/getUsuarioByEmail`, {
         method: metodo,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": getToken() },
         body: JSON.stringify(objeto)
     });
     const data = await response.json();
@@ -49,7 +50,7 @@ export const getUsuarioPorEmailAPI = async (objeto, metodo) => {
 export const addUsuarioByIdAPI = async (objeto, metodo) => {
     const response = await fetch(`${process.env.REACT_APP_ENDERECO_API}/projetoAddUsuario`, {
         method: metodo,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": getToken() },
         body: JSON.stringify(objeto)
     });
     const data = await response.json();

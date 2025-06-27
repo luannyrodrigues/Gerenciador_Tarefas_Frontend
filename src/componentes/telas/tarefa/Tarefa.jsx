@@ -4,19 +4,17 @@ import Tabela from "./Tabela.jsx";
 import Formulario from "./Formulario.jsx";
 import Carregando from "../../comuns/Carregando.jsx";
 import { cadastraTarefaAPI, getTarefasPorProjetoAPI, deleteTarefaPorIdAPI, getTarefaPorIdAPI } from "../../../servicos/TarefaServico.jsx";
+import { getStorage } from "../../../servicos/AuthServico.jsx";
 
 function Projeto() {
 
     const [alerta, setAlerta] = useState({ status: "", message: "" });
     const [listaObjetos, setListaObjetos] = useState([]);
     const [carregando, setCarregando] = useState(false);
-    const usuarioLogado = JSON.parse(localStorage.getItem("usuario")); 
     
-    const idProjeto = JSON.parse(localStorage.getItem("projeto")); 
-
     const recuperaTarefas = async () => {
         setCarregando(true);
-        setListaObjetos(await getTarefasPorProjetoAPI(idProjeto));
+        setListaObjetos(await getTarefasPorProjetoAPI(getStorage('projeto')));
         setCarregando(false);
     }
 
@@ -32,19 +30,18 @@ function Projeto() {
     const [exibirForm, setExibirForm] = useState(false);
 
     const [objeto, setObjeto] = useState({
-        id: "", titulo: "", descricao: "", status: '', idUsuario: usuarioLogado.id, idProjeto: idProjeto
+        id: "", titulo: "", descricao: "", status: '', idUsuario: getStorage('id'), idProjeto: getStorage('projeto')
     })
 
     const novoObjeto = () => {
         setEditar(false);
         setAlerta({ status: "", message: "" });
-        setObjeto({ id: 0, titulo: "", descricao: "", status: '', idUsuario: usuarioLogado.id, idProjeto: idProjeto });
+        setObjeto({ id: 0, titulo: "", descricao: "", status: '', idUsuario: getStorage('id'), idProjeto: getStorage('projeto') });
         setExibirForm(true);
     }
 
     const editarObjeto = async id => {
         setObjeto(await getTarefaPorIdAPI(id));
-        console.log(await getTarefaPorIdAPI(id));
         setEditar(true);
         setExibirForm(true);
     }

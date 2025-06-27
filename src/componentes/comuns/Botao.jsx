@@ -1,4 +1,3 @@
-// src/components/BotaoPrimario.jsx
 import { Button } from "primereact/button";
 
 const BotaoPrimario = ({ label, onClick, severity = "primary" }) => {

@@ -4,17 +4,16 @@ import Alerta from '../../comuns/Alerta.jsx';
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { useNavigate } from "react-router-dom";
+import { getStorage } from "../../../servicos/AuthServico.jsx";
 
 function Tabela() {
 
     const { alerta, listaObjetos, remover, novoObjeto, editarObjeto } = useContext(TarefaContext);
-    const navigate = useNavigate();
 
     const botoesAcoes = (rowData) => (
-        <div className="justify-content-center">
+        <div style={{display: 'flex', gap: 5}}>
             <Button icon="pi pi-pencil" severity="info" onClick={() => editarObjeto(rowData.id)} />
-            <Button icon="pi pi-trash" severity="danger" onClick={() => remover(rowData.id)} />
+            { getStorage('tipo') === 'A' ? (<Button icon="pi pi-trash" severity="danger" onClick={() => remover(rowData.id)} />) : null}
         </div>
     );
 
@@ -23,7 +22,7 @@ function Tabela() {
             <h1>Tarefas</h1>
             <Alerta alerta={alerta} />
             <div className="my-3">
-                <Button label="Novo" icon="pi pi-file" className="p-button-primary" onClick={novoObjeto} />
+                <Button label="Novo" icon="pi pi-file" className="p-button-primary" onClick={novoObjeto} style={{margin: 10}}/>
             </div>
             {listaObjetos.length === 0 ? (
                 <h2>Nenhuma tarefa</h2>

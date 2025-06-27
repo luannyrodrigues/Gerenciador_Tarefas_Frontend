@@ -9,17 +9,17 @@ import {
 import Tabela from "./Tabela.jsx";
 import Formulario from "./Formulario.jsx";
 import Carregando from "../../comuns/Carregando.jsx";
+import { getStorage } from "../../../servicos/AuthServico.jsx";
 
 function Projeto() {
 
     const [alerta, setAlerta] = useState({ status: "", message: "" });
     const [listaObjetos, setListaObjetos] = useState([]);
     const [carregando, setCarregando] = useState(false);
-    const usuarioLogado = JSON.parse(localStorage.getItem("usuario")); 
 
     const recuperaProjetos = async () => {
         setCarregando(true);
-        setListaObjetos(await getProjetoDoUsuarioAPI(usuarioLogado.id));
+        setListaObjetos(await getProjetoDoUsuarioAPI(getStorage('id')));
         setCarregando(false);
     }
 
@@ -55,7 +55,7 @@ function Projeto() {
         e.preventDefault();
         const metodo = editar ? "PUT" : "POST";
         try {
-            let retornoAPI = await cadastraProjetoAPI(usuarioLogado.id, objeto, metodo);
+            let retornoAPI = await cadastraProjetoAPI(getStorage('id'), objeto, metodo);
             setAlerta({ status: retornoAPI.status, message: retornoAPI.message });
             setObjeto(retornoAPI.objeto);
             if (!editar) setEditar(true);
